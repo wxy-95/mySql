@@ -1,0 +1,28 @@
+	显示所有的database：SHOW DATABASES;
+	创建新的database：CREATE DATABASE hello_world_db;
+	删除已有的database：DROP DATABASE hello_world_db; 已经drop，就被删除，无法恢复
+  注意： “；”不要忘记； code用大写，数据库信息用小写，便于区分开来
+	使用database：USE hell_world_db;
+	确定当前所在database；SELECT DATABASE ();
+	如果数据库不包含此database，则会提示“null”
+  数据库就是一群表格的集合（但不是所有的数据库都是）
+	columns = headers
+	rows    = the actual data
+	数字：int （< 4294967295）
+	文字字符：varchar ( a variable-length string) vs char ( fixed string , eg:10)
+	  1< varchar<255
+    eg: 'coffee!!' & '-000'
+	创建表格：创建database → 使用database → 创建表格 → 创建表格的行
+  CREATE TABLE tablename
+  (
+  column_name data_type,
+  column_name data_type
+  );
+  CREATE TABLE cats
+  (
+  name VARCHAR(100),
+  age INT
+  );
+  SHOW TABLES;
+  SHOW COLUMNS FROM cats; 或者 DESC cats;
+  
