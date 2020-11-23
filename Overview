@@ -1,0 +1,8 @@
+App → database management system(DBMS) → database
+常见的几种DBMS：PostgreSQL，MySQL，Oracle Database，SQLite
+SQL：structured query language
+工作环境：goormIDM https://ide.goorm.io/my
+mysql-ctl: command tool
+mysql-ctl cli: command-line interface 进入mysql 界面（shell）
+执行命令语句：select 1 + 1;
+跳出mysql界面：exit
