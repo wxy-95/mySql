@@ -4,7 +4,7 @@ CREATE DATABASE hello_world_db;	   *创建新的database
 
 DROP DATABASE hello_world_db;      *删除已有的database, 一经drop，无法恢复
 
-USE DATABASE ();                   *使用database
+USE hello_world_db;                *使用database
 
 SELECT DATABASE ();                *确定当前所在database；
                                    *如果数据库不包含此database，则会提示“null”
