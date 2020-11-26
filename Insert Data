@@ -1,1 +1,207 @@
-INSERT INTO
+USE cat_app;                                       *使用数据库cat_app
+
+CREATE TABLE people                                *创建people table
+(                                                  
+  first_name VARCHAR(20),
+  last_name VARCHAR(20),
+  age INT
+); 
+
+INSERT INTO people(first_name, last_name, age)      *插入数据
+    -> VALUE ('Tina', 'Belcher', 13);
+    
+ INSERT INTO people(age, last_name, first_name)    
+    -> VALUE (42, 'Belcher', 'Bob');                 *顺序很重要
+    
+INSERT INTO people(first_name, last_name, age)       *可以一次性插入多个数据
+    -> VALUE ('Linda', 'Belcher', 45)
+    -> ,('Phillip', 'Frond', 38)
+    -> ,('Calvin', 'Fischoeder', 70);
+  
+SELECT * FROM people;                                *查看插入的数据，检查
++------------+------------+------+
+| first_name | last_name  | age  |
++------------+------------+------+
+| Tina       | Belcher    |   13 |
+| Bob        | Belecher   |   42 |
+| Linda      | Belcher    |   45 |
+| Phillip    | Frond      |   38 |
+| Calvin     | Fischoeder |   70 |
++------------+------------+------+
+
+DROP TABLE people;                                          *删除table people                                
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> SELECT * FROM People;                                *确认是否删除成功
+ERROR 1146 (42S02): Table 'cat_app.People' doesn't exist
+
+mysql> show tables;                                         *确认是否删除成功
++-------------------+
+| Tables_in_cat_app |
++-------------------+
+| cats              |
++-------------------+
+
+INSERT INTO cats(name, age)
+    -> VALUES('coffee', 'beans');
+Query OK, 1 row affected, 1 warning (0.01 sec)               *出现一个warning
+
+SHOW WARNINGS;                                               *show warning
++---------+------+------------------------------------------------------------+
+| Level   | Code | Message                                                    |
++---------+------+------------------------------------------------------------+
+| Warning | 1366 | Incorrect integer value: 'beans' for column 'age' at row 1 |
++---------+------+------------------------------------------------------------+
+
+SELECT * FROM cats;
++---------+------+
+| name    | age  |
++---------+------+
+| blue    |    1 |
+| Draco   |   11 |
+| Peanuts |    1 |
+| Butter  |    4 |
+| Jelly   |    5 |
+| coffee  |    0 |                                            *age = 0 （默认）
++---------+------+
+
+INSERT INTO cats(name)
+    -> VALUE('texa');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> SELECT * FROM cats;
++---------+------+
+| name    | age  |
++---------+------+
+| blue    |    1 |
+| Draco   |   11 |
+| Peanuts |    1 |
+| Butter  |    4 |
+| Jelly   |    5 |
+| Tina    |    0 |
+| LINMA   |    0 |
+| coffee  |    0 |
+| texa    | NULL |                                             * null is permitted
++---------+------+
+
+CREATE TABLE cat_2         
+    -> (
+    -> name VARCHAR(100) NOT NULL,                             *null is not permitted
+    -> age INT NOT NULL
+    -> );
+    
+INSERT INTO cat_2(name)
+    -> VALUE('Apple');
+Query OK, 1 row affected, 1 warning (0.07 sec)                 *warning 出现
+
+SELECT * FROM cat_2;
++-------+-----+
+| name  | age |
++-------+-----+
+| Apple |   0 |                                                *默认age是0（而不是null）
++-------+-----+
+
+CREATE TABLE cat_3                                             *设置默认值
+    -> (name VARCHAR(100) DEFAULT 'UNNAMED',
+    -> age int DEFAULT 99);
+
+DESC cat_3;                                                    *确定默认值设置成功
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| name  | varchar(100) | YES  |     | UNNAMED |       |
+| age   | int(11)      | YES  |     | 99      |       |
++-------+--------------+------+-----+---------+-------+
+
+INSERT INTO cat_3(name)
+    -> VALUE('Pear');
+Query OK, 1 row affected (0.01 sec)                            *warning没有出现
+
+ INSERT INTO cat_3(name, age)                                  *将age 设置为null
+    -> VALUES('BANANA', NULL);
+
+SELECT * FROM cat_3;                                          
++---------+------+
+| name    | age  |
++---------+------+
+| Pear    |   99 |                                               *确定默认值设置成功
+| BANANA  | NULL |                                               *null设置成功
++---------+------+
+
+CREATE TABLE cat_4                                              *not null & 默认值同时设定
+    -> (name VARCHAR(100) NOT NULL DEFAULT 'Unnamed',
+    -> age INT NOT NULL DEFAULT 99);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> DESC cat_4;                                              *验证成功设定
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| name  | varchar(100) | NO   |     | Unnamed |       |
+| age   | int(11)      | NO   |     | 99      |       |
++-------+--------------+------+-----+---------+-------+
+
+INSERT INTO cat_4(name, age)
+    -> VALUES('Chips', NULL);                                   *出现报错，无法将age设置为null
+ERROR 1048 (23000): Column 'age' cannot be null
+
+CREATE TABLE unique_cat_1           
+(
+id INT NOT NULL
+, name VARCHAR(100)
+, age INT
+, PRIMARY KEY (id)                                              *将id设置为prime key
+);
+
+DESC unique_cat_1;                                               *确定prime key设置成功
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| id    | int(11)      | NO   | PRI | NULL    |       |
+| name  | varchar(100) | YES  |     | NULL    |       |
+| age   | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+
+INSERT INTO unique_cat_1(id, name, age)                            *prime key不可以相同
+  VALUES(1, 'Cinamon', 11);
+INSERT INTO uique_cat_1(id, name, age) 
+  VALUES(2, 'Cinamon', 11);
+INSERT INTO uique_cat_1(id, name, age) 
+  VALUES(3, 'Cinamon', 11);
+  
+SELECT * FROM unique_cat_1;                                         *prime key可以区分相同数据
++----+---------+------+
+| id | name    | age  |
++----+---------+------+
+|  1 | Cinamon |   11 |
+|  2 | Cinamon |   11 |
+|  3 | Cinamon |   11 |
++----+---------+------+
+ 
+CREATE TABLE unique_cat_2 
+  (id INT NOT NULL AUTO_INCREMENT                                  *将id设置为自动添加
+  ,name VARCHAR(100)
+  ,age INT
+  ,PRIMARY KEY (id) );
+ 
+ DESC unique_cat_2;                                                *验证id自动添加设置成功
++-------+--------------+------+-----+---------+----------------+  
+| Field | Type         | Null | Key | Default | Extra          |   *Extra
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(100) | YES  |     | NULL    |                |
+| age   | int(11)      | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+ 
+INSERT INTO unique_cat_2(name, age)
+  VALUES('Soysauce', 2);
+INSERT INTO unique_cat_2(name, age) 
+  VALUES('Meat', 2);
+  
+SELECT * FROM unique_cat_2;                                         *验证id自动设置成功
++----+----------+------+
+| id | name     | age  |
++----+----------+------+
+|  1 | Soysauce |    2 |
+|  2 | Meat     |    2 |
++----+----------+------+
