@@ -1,10 +1,10 @@
 SHOW DATABASES;                    *显示所有的database
 
-CREATE DATABASE hello_world_db;	   *创建新的database
+CREATE DATABASE cat_app;	   *创建新的database
 
-DROP DATABASE hello_world_db;      *删除已有的database, 一经drop，无法恢复
+DROP DATABASE cat_app;             *删除已有的database, 一经drop，无法恢复
 
-USE hello_world_db;                *使用database
+USE cat_app;                       *使用database
 
 SELECT DATABASE ();                *确定当前所在database；
                                    *如果数据库不包含此database，则会提示“null”
@@ -20,10 +20,31 @@ SELECT DATABASE ();                *确定当前所在database；
 	   1< varchar <255
            eg: 'coffee!!' & '-000'
 
-  CREATE TABLE cats                 *创建表格：创建database → 使用database → 创建表格 → 创建表格的行
+*under a database that you've created before
+CREATE TABLE cats                 *创建表格同时创建表格的行
   (
   name VARCHAR(100),
   age INT
   );
-  SHOW TABLES;
-  SHOW COLUMNS FROM cats; 或者 DESC cats;
+  
+SHOW TABLES;                      *确认table创建成功
++-------------------+
+| Tables_in_cat_app |
++-------------------+
+| pastries          |
++-------------------+
+ 
+SHOW COLUMNS FROM cats;          *确认创建rows成功
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| name  | varchar(100) | YES  |     | NULL    |       |
+| age   | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+  
+DESC cats;                        * describe table
+
+DROP TABLE cats;                  *删除table
+
+SHOW TABLES;                      *确认删除成功
+Empty set (0.01 sec)
