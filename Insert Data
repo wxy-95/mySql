@@ -145,9 +145,9 @@ INSERT INTO cat_4(name, age)
     -> VALUES('Chips', NULL);                                   *出现报错，无法将age设置为null
 ERROR 1048 (23000): Column 'age' cannot be null
 
-CREATE TABLE unique_cat_1           
+CREATE TABLE unique_cat_1                     
 (
-id INT NOT NULL
+id INT NOT NULL  * PRIMARY KEY                                 *或者直接在id后接primary key 
 , name VARCHAR(100)
 , age INT
 , PRIMARY KEY (id)                                              *将id设置为prime key
