@@ -1,0 +1,119 @@
+SELECT * FROM cats;                                                    *搜索全部数据（表格排列顺序与创建表格时一致）
++--------+----------------+------------+------+
+| cat_id | name           | breed      | age  |
++--------+----------------+------------+------+
+|      1 | Ringo          | Tabby      |    4 |
+|      2 | Cindy          | Maine Coon |   10 |
+|      3 | Dumbledore     | Maine Coon |   11 |
+|      4 | Egg            | Persian    |    4 |
+|      5 | Misty          | Tabby      |   13 |
+|      6 | George Michael | Ragdoll    |    9 |
+|      7 | Jackson        | Sphynx     |    7 |
++--------+----------------+------------+------+
+
+SELECT name FROM cats;                                                *搜索name
+SELECT age FROM cats;
+SELECT cat_id FROM cats;
+SELECT name, age FROM cats;
+
+SELECT age, breed, name, cat_id FROM cats;                            *顺序与搜索顺序一致
++------+------------+----------------+--------+
+| age  | breed      | name           | cat_id |
++------+------------+----------------+--------+
+|    4 | Tabby      | Ringo          |      1 |
+|   10 | Maine Coon | Cindy          |      2 |
+|   11 | Maine Coon | Dumbledore     |      3 |
+|    4 | Persian    | Egg            |      4 |
+|   13 | Tabby      | Misty          |      5 |
+|    9 | Ragdoll    | George Michael |      6 |
+|    7 | Sphynx     | Jackson        |      7 |
++------+------------+----------------+--------+
+
+SELECT * FROM cats WHERE name='Egg';                                    *从表格中搜索‘egg’名字的猫
+SELECT * FROM cats WHERE name='egG';                                    *无关大小写（cases insensitive）                       
+
+SELECT name,age FROM cats WHERE breed='tabby';                          *SELECT 后面接你要的column
++-------+------+                                                        *WHERE  后面接你搜索的条件
+| name  | age  |
++-------+------+
+| Ringo |    4 |
+| Misty |   13 |
++-------+------+
+
+SELECT cat_id, age FROM cats WHERE cat_id=age;                           *WHERE后面还可以接函数
++--------+------+
+| cat_id | age  |
++--------+------+
+|      4 |    4 |
+|      7 |    7 |
++--------+------+
+
+SELECT cat_id AS id, name AS 'cat name' FROM cats;                       *更改表头（实际上的表头没有更改）
++----+----------------+
+| id | cat name       |
++----+----------------+
+|  1 | Ringo          |
+|  2 | Cindy          |
+|  3 | Dumbledore     |
+|  4 | Egg            |
+|  5 | Misty          |
+|  6 | George Michael |
+|  7 | Jackson        |
++----+----------------+
+ 
+desc cats;                                                                 *实际上表头没有更改，仍然为cat_id, name
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| cat_id | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(100) | YES  |     | NULL    |                |
+| breed  | varchar(100) | YES  |     | NULL    |                |
+| age    | int(11)      | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+
+UPDATE cats SET breed='Shorthair' WHERE breed='Tabby';                     *update 数据
++------------+                                                             *主要就是确认UPDATE, SET, WHERE的内容
+| breed      |
++------------+
+| Shorthair  |
+| Maine Coon |
+| Maine Coon |
+| Persian    |
+| Shorthair  |
+| Ragdoll    |
+| Sphynx     |
++------------+
+
+SELECT * FROM cats WHERE name='Misty';                                     *update之前最好先确认数据
+UPDATE cats SET age=14 WHERE name='Misty';                                 *update之前一定要反复确认WHERE后面的内容
++----------------+------+                                                  *因为update不可撤销
+| name           | age  |
++----------------+------+
+| Ringo          |    4 |
+| Cindy          |   10 |
+| Dumbledore     |   11 |
+| Egg            |    4 |
+| Misty          |   14 |
+| George Michael |    9 |
+| Jackson        |    7 |
++----------------+------+
+                                                                            *SELECT后面要接数据范围，DELETE后面没有数据范围（因为delete全部数据）
+SELECT * FROM cats WHERE name='egg';                                        *删除数据前最好先确定要删除的数据
+DELETE FROM cats WHERE name='egg';                                          *删除数据（无法撤销）
++--------+----------------+-------------------+------+                      *注意cat_id没有发生变化
+| cat_id | name           | breed             | age  |
++--------+----------------+-------------------+------+
+|      1 | Ringo          | British Shorthair |    4 |
+|      2 | Cindy          | Maine Coon        |   12 |
+|      3 | Dumbledore     | Maine Coon        |   12 |
+|      5 | Misty          | Shorthair         |   14 |
+|      6 | George Michael | Ragdoll           |    9 |
+|      7 | Jack           | Sphynx            |    7 |
++--------+----------------+-------------------+------+
+
+DROP table cats;                                                             *cats 内的数据和 shell 都被删除 
+DELET FROM cats;                                                             *cats内的数据全部都被删除，但cats shell仍然存在
+SELECT* FROM cats;
+Empty set (0.00 sec)
+
+
