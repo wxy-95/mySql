@@ -1,0 +1,37 @@
+root@goorm:/workspace/mysql# \c                                   *在terminal 中 code 无法直接修改
+
+在文件中写code，在terminal端执行code，可以使code修改起来更方便；   *需要创建新的文件
+
+在project 下创建一个文件‘ query.sql （文件名称任意）’；            *创建第一个新文件'query.sql'
+
+root@goorm:/workspace/mysql# ls                                    *使用ls 命令来确认创建的文件成功
+goorm.manifest  query.sql
+
+mysql> USE cat_app;                                               *确定数据库       
+
+CREATE TABLE cats                                                  *在文件中输入code
+    (
+        cat_id INT NOT NULL AUTO_INCREMENT,
+        name VARCHAR(100),
+        age INT,
+        PRIMARY KEY(cat_id)
+    );
+DESC cats;
+
+mysql> source query.sql;                                            *在terminal 运行query.sql 文件中的code
++--------+--------------+------+-----+---------+----------------+
+| Field  | Type         | Null | Key | Default | Extra          |
++--------+--------------+------+-----+---------+----------------+
+| cat_id | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name   | varchar(100) | YES  |     | NULL    |                |
+| age    | int(11)      | YES  |     | NULL    |                |
++--------+--------------+------+-----+---------+----------------+
+
+在project 下创建一个文件‘ test.sql （文件名称任意）’；                *同一个文件夹中创建另一个新文件'test.sql'
+
+mysql> source test.sql;                                              *在terminal 运行test.sql 文件中的code
+
+创建一个新文件夹，在新文件夹下面创建新的文件                           *新文件夹名称' new_folder '
+                                                                      *新文件名称' testing.sql '
+ 
+mysql> source new_folder/testing.sql;                                 *在terminal 运行testing.sql 文件中的code                                                               
