@@ -1,0 +1,131 @@
+SELECT CONCAT('HELLO',' ','WORLD');                                                     *单纯文字组合code
+mysql> SOURCE book_data.sql
++-----------------------------+
+| CONCAT('HELLO',' ','WORLD') |
++-----------------------------+
+| HELLO WORLD                 |
++-----------------------------+
+
+SELECT author_fname AS first_name, author_lname AS last_name,                           *CONCAT 函数组合表格中的column，并命名
+CONCAT('author_fname','author_lname') AS full                                           *concatenate : link together
+FROM books;
+mysql> SOURCE book_data.sql;
++------------+----------------+--------------------------+
+| first_name | last_name      | full                     |
++------------+----------------+--------------------------+
+| Jhumpa     | Lahiri         | author_fnameauthor_lname |
+| Neil       | Gaiman         | author_fnameauthor_lname |
+| Neil       | Gaiman         | author_fnameauthor_lname |
+| Jhumpa     | Lahiri         | author_fnameauthor_lname |
+| Dave       | Eggers         | author_fnameauthor_lname |
+| Dave       | Eggers         | author_fnameauthor_lname |
+| Michael    | Chabon         | author_fnameauthor_lname |
+| Patti      | Smith          | author_fnameauthor_lname |
+| Dave       | Eggers         | author_fnameauthor_lname |
+| Neil       | Gaiman         | author_fnameauthor_lname |
+| Raymond    | Carver         | author_fnameauthor_lname |
+| Raymond    | Carver         | author_fnameauthor_lname |
+| Don        | DeLillo        | author_fnameauthor_lname |
+| John       | Steinbeck      | author_fnameauthor_lname |
+| David      | Foster Wallace | author_fnameauthor_lname |
+| David      | Foster Wallace | author_fnameauthor_lname |
++------------+----------------+--------------------------+
+
+SELECT CONCAT_WS(' ', 'title','author_fname','author_lname','pages')                     *CONCAT_WS 函数简化多个组合，省略重复步骤
+FROM books;
+mysql> SOURCE book_data.sql;
++----------------------------------------------------------------+
+| CONCAT_WS(' ', 'title','author_fname','author_lname','pages' ) |
++----------------------------------------------------------------+
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
+| title author_fname author_lname pages                          |
++----------------------------------------------------------------+
+
+SELECT SUBSTRING('HELLO WORLD', 1, 4);                                                 *第1到第4之间的字符（0字符开始)
+mysql> SOURCE substring.sql;
++--------------------------------+
+| SUBSTRING('HELLO WORLD', 1, 4) |
++--------------------------------+
+| HELL                           |
++--------------------------------+
+
+SELECT SUBSTRING('HELLO WORLD', 7);                                                   *第7之后的字符
++-----------------------------+
+| SUBSTRING('HELLO WORLD', 7) |
++-----------------------------+
+| WORLD                       |
++-----------------------------+
+
+SELECT SUBSTRING('HELLO WORLD', -3);                                                  *倒数第1到第3之间的字符
++------------------------------+
+| SUBSTRING('HELLO WORLD', -3) |
++------------------------------+
+| RLD                          |
++------------------------------+
+
+SELECT  SUBSTRING( " Where I'm Calling From: Selected Stories ", 1, 10);               *引用的字符串中有单引号时，code要用双引号
+mysql> source substring.sql;
++---------------------------------------------------------------+
+| SUBSTRING( "Where I'm Calling From: Selected Stories", 1, 10) |
++---------------------------------------------------------------+
+| Where I'm                                                     |
++---------------------------------------------------------------+
+
+SELECT                                                                                *CONCAT & SUBSTRING 合用
+  CONCAT
+  (
+      SUBSTRING(title, 1, 10),
+     '......'
+  )AS short_title
+FROM books;
+mysql> source substring.sql;
++------------------+
+| short_title      |
++------------------+
+| The Namesa...... |
+| Norse Myth...... |
+| American G...... |
+| Interprete...... |
+| A Hologram...... |
+| The Circle...... |
+| The Amazin...... |
+| Just Kids......  |
+| A Heartbre...... |
+| Coraline......   |
+| What We Ta...... |
+| Where I'm ...... |
+| White Nois...... |
+| Cannery Ro...... |
+| Oblivion: ...... |
+| Consider t...... |
++------------------+
+
+SELECT  REPLACE('HELLo WoRLD', 'o', 'O') ;
+mysql> source substring.sql;
++----------------------------------+
+| REPLACE('HELLo WoRLD', 'o', 'O') |
++----------------------------------+
+| HELLO WORLD                      |
++----------------------------------+
+
+SELECT REPLACE('cheese bread coffee milk', ' ', ' and ');
+mysql> source substring.sql;
++---------------------------------------------------+
+| REPLACE('cheese bread coffee milk', ' ', ' and ') |
++---------------------------------------------------+
+| cheese and bread and coffee and milk              |
++---------------------------------------------------+
