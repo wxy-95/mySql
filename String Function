@@ -1,3 +1,6 @@
+https://sql-format.com/                                                                 *format sql
+https://dev.mysql.com/doc/refman/8.0/en/string-functions.html                           *mysql function 合集
+
 SELECT CONCAT('HELLO',' ','WORLD');                                                     *单纯文字组合code
 mysql> SOURCE book_data.sql
 +-----------------------------+
@@ -85,7 +88,7 @@ mysql> source substring.sql;
 | Where I'm                                                     |
 +---------------------------------------------------------------+
 
-SELECT                                                                                *CONCAT & SUBSTRING 合用
+SELECT                                                                                *CONCAT & SUBSTRING 构成复合函数
   CONCAT
   (
       SUBSTRING(title, 1, 10),
@@ -114,7 +117,7 @@ mysql> source substring.sql;
 | Consider t...... |
 +------------------+
 
-SELECT  REPLACE('HELLo WoRLD', 'o', 'O') ;
+SELECT  REPLACE('HELLo WoRLD', 'o', 'O') ;                                          *replace 函数，case-sensitive
 mysql> source substring.sql;
 +----------------------------------+
 | REPLACE('HELLo WoRLD', 'o', 'O') |
@@ -122,10 +125,144 @@ mysql> source substring.sql;
 | HELLO WORLD                      |
 +----------------------------------+
 
-SELECT REPLACE('cheese bread coffee milk', ' ', ' and ');
+SELECT REPLACE('cheese bread coffee milk', ' ', ' and ');                          *replace 函数可以一次性replace多个字符
 mysql> source substring.sql;
 +---------------------------------------------------+
 | REPLACE('cheese bread coffee milk', ' ', ' and ') |
 +---------------------------------------------------+
 | cheese and bread and coffee and milk              |
 +---------------------------------------------------+
+
+SELECT                                                                            *substring 和 replace 函数组成复合函数
+    SUBSTRING(
+        REPLACE(title, 'e', '*'),                                                 *一定一定一定要注意 ' SUBSTRING( ' 不能分开，比如：' SUBSTRING   ( ' 这种情况下会出现error
+     1,10) 
+     AS 'weird string'
+FROM books;
+mysql> source substring.sql;
++--------------+
+| weird string |
++--------------+
+| Th* Nam*sa   |
+| Nors* Myth   |
+| Am*rican G   |
+| Int*rpr*t*   |
+| A Hologram   |
+| Th* Circl*   |
+| Th* Amazin   |
+| Just Kids    |
+| A H*artbr*   |
+| Coralin*     |
+| What W* Ta   |
+| Wh*r* I'm    |
+| Whit* Nois   |
+| Cann*ry Ro   |
+| Oblivion:    |
+| Consid*r t   |
++--------------+
+
+SELECT REVERSE('HEELLO WORLD');                                                *reverse 函数
+mysql> source substring.sql;
++-------------------------+
+| REVERSE('HEELLO WORLD') |
++-------------------------+
+| DLROW OLLEEH            |
++-------------------------+
+
+SELECT CONCAT(author_fname, REVERSE(author_fname)) from books;                *reverse & concat 组合函数
++---------------------------------------------+
+| CONCAT(author_fname, REVERSE(author_fname)) |
++---------------------------------------------+
+| JhumpaapmuhJ                                |
+| NeillieN                                    |
+| NeillieN                                    |
+| JhumpaapmuhJ                                |
+| DaveevaD                                    |
+| DaveevaD                                    |
+| MichaelleahciM                              |
+| PattiittaP                                  |
+| DaveevaD                                    |
+| NeillieN                                    |
+| RaymonddnomyaR                              |
+| RaymonddnomyaR                              |
+| DonnoD                                      |
+| JohnnhoJ                                    |
+| DaviddivaD                                  |
+| DaviddivaD                                  |
++---------------------------------------------+
+
+SELECT CHAR_LENGTH('HELLO WORLD');                                           *计算字符数 CHAR_LENGTH
+mysql> source substring.sql;
++----------------------------+
+| CHAR_LENGTH('HELLO WORLD') |
++----------------------------+
+|                         11 |
++----------------------------+
+
+SELECT
+  CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), 'characters')       *CONCAT & CAHR_LENGTH 函数复合
+FROM books;
++-----------------------------------------------------------------------+
+| CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), 'characters') |
++-----------------------------------------------------------------------+
+| Lahiri is 6characters                                                 |
+| Gaiman is 6characters                                                 |
+| Gaiman is 6characters                                                 |
+| Lahiri is 6characters                                                 |
+| Eggers is 6characters                                                 |
+| Eggers is 6characters                                                 |
+| Chabon is 6characters                                                 |
+| Smith is 5characters                                                  |
+| Eggers is 6characters                                                 |
+| Gaiman is 6characters                                                 |
+| Carver is 6characters                                                 |
+| Carver is 6characters                                                 |
+| DeLillo is 7characters                                                |
+| Steinbeck is 9characters                                              |
+| Foster Wallace is 14characters                                        |
+| Foster Wallace is 14characters                                        |
++-----------------------------------------------------------------------+
+
+SELECT UPPER('HELLO WORLD');                                                 *文字符大写： upper 函数
+mysql> SOURCE substring.sql;
++----------------------+
+| UPPER('HELLO WORLD') |
++----------------------+
+| HELLO WORLD          |
++----------------------+
+
+SELECT LOWER('HELLO WORLD');                                                              *文字符小写： lower 函数
++----------------------+
+| LOWER('HELLO WORLD') |
++----------------------+
+| hello world          |
++----------------------+
+
+SELECT                                                                                    *CONCAT & UPPER 组合函数
+  CONCAT('my favorite book is', UPPER(title))
+FROM books;
++------------------------------------------------------------------------+
+| CONCAT('my favorite book is', UPPER(title))                            |
++------------------------------------------------------------------------+
+| my favorite book isTHE NAMESAKE                                        |
+| my favorite book isNORSE MYTHOLOGY                                     |
+| my favorite book isAMERICAN GODS                                       |
+| my favorite book isINTERPRETER OF MALADIES                             |
+| my favorite book isA HOLOGRAM FOR THE KING: A NOVEL                    |
+| my favorite book isTHE CIRCLE                                          |
+| my favorite book isTHE AMAZING ADVENTURES OF KAVALIER & CLAY           |
+| my favorite book isJUST KIDS                                           |
+| my favorite book isA HEARTBREAKING WORK OF STAGGERING GENIUS           |
+| my favorite book isCORALINE                                            |
+| my favorite book isWHAT WE TALK ABOUT WHEN WE TALK ABOUT LOVE: STORIES |
+| my favorite book isWHERE I'M CALLING FROM: SELECTED STORIES            |
+| my favorite book isWHITE NOISE                                         |
+| my favorite book isCANNERY ROW                                         |
+| my favorite book isOBLIVION: STORIES                                   |
+| my favorite book isCONSIDER THE LOBSTER                                |
++------------------------------------------------------------------------+
+
+SELECT UPPER(CONCAT(author_fname, ' ', author_lname)) AS "full name in caps"              *组合函数 顺序很重要
+FROM books;
+SELECT CONCAT(UPPER(author_fname), ' ', UPPER(author_lname)) AS "full name in caps"       *不推荐这种写法，因为upper 函数重复了
+FROM books;
