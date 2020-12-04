@@ -11,3 +11,5 @@ mysql-ctl install/start/stop/cli/status
 mysql-ctl cli   *command-line interface 进入mysql 界面（shell）
 select 1 + 1;   *执行命令语句
 exit;           *跳出mysql界面
+
+ctrl + '/'         * memo
