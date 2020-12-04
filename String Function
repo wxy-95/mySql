@@ -34,7 +34,7 @@ mysql> SOURCE book_data.sql;
 | David      | Foster Wallace | author_fnameauthor_lname |
 +------------+----------------+--------------------------+
 
-SELECT CONCAT_WS(' ', 'title','author_fname','author_lname','pages')                     *CONCAT_WS 函数简化多个组合，省略重复步骤
+SELECT CONCAT_WS(' ', 'title','author_fname','author_lname','pages')                     *CONCAT_WS 函数，组合多个字符（字符之间用相同的间隔符）
 FROM books;
 mysql> SOURCE book_data.sql;
 +----------------------------------------------------------------+
@@ -58,7 +58,7 @@ mysql> SOURCE book_data.sql;
 | title author_fname author_lname pages                          |
 +----------------------------------------------------------------+
 
-SELECT SUBSTRING('HELLO WORLD', 1, 4);                                                 *第1到第4之间的字符（0字符开始)
+SELECT SUBSTRING('HELLO WORLD', 1, 4);                                                 *substring 取第1到第4之间的字符（0字符开始)
 mysql> SOURCE substring.sql;
 +--------------------------------+
 | SUBSTRING('HELLO WORLD', 1, 4) |
@@ -66,14 +66,14 @@ mysql> SOURCE substring.sql;
 | HELL                           |
 +--------------------------------+
 
-SELECT SUBSTRING('HELLO WORLD', 7);                                                   *第7之后的字符
+SELECT SUBSTRING('HELLO WORLD', 7);                                                    *第7之后的字符
 +-----------------------------+
 | SUBSTRING('HELLO WORLD', 7) |
 +-----------------------------+
 | WORLD                       |
 +-----------------------------+
 
-SELECT SUBSTRING('HELLO WORLD', -3);                                                  *倒数第1到第3之间的字符
+SELECT SUBSTRING('HELLO WORLD', -3);                                                   *倒数第1到第3之间的字符
 +------------------------------+
 | SUBSTRING('HELLO WORLD', -3) |
 +------------------------------+
@@ -117,7 +117,7 @@ mysql> source substring.sql;
 | Consider t...... |
 +------------------+
 
-SELECT  REPLACE('HELLo WoRLD', 'o', 'O') ;                                          *replace 函数，case-sensitive
+SELECT  REPLACE('HELLo WoRLD', 'o', 'O') ;                                         *replace 函数，case-sensitive
 mysql> source substring.sql;
 +----------------------------------+
 | REPLACE('HELLo WoRLD', 'o', 'O') |
@@ -169,7 +169,7 @@ mysql> source substring.sql;
 | DLROW OLLEEH            |
 +-------------------------+
 
-SELECT CONCAT(author_fname, REVERSE(author_fname)) from books;                *reverse & concat 组合函数
+SELECT CONCAT(author_fname, REVERSE(author_fname)) from books;                 *reverse & concat 组合函数
 +---------------------------------------------+
 | CONCAT(author_fname, REVERSE(author_fname)) |
 +---------------------------------------------+
@@ -191,7 +191,7 @@ SELECT CONCAT(author_fname, REVERSE(author_fname)) from books;                *r
 | DaviddivaD                                  |
 +---------------------------------------------+
 
-SELECT CHAR_LENGTH('HELLO WORLD');                                           *计算字符数 CHAR_LENGTH
+SELECT CHAR_LENGTH('HELLO WORLD');                                             *计算字符数 CHAR_LENGTH
 mysql> source substring.sql;
 +----------------------------+
 | CHAR_LENGTH('HELLO WORLD') |
@@ -200,7 +200,7 @@ mysql> source substring.sql;
 +----------------------------+
 
 SELECT
-  CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), 'characters')       *CONCAT & CAHR_LENGTH 函数复合
+  CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), 'characters')         *CONCAT & CHAR_LENGTH 函数复合
 FROM books;
 +-----------------------------------------------------------------------+
 | CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), 'characters') |
@@ -223,7 +223,7 @@ FROM books;
 | Foster Wallace is 14characters                                        |
 +-----------------------------------------------------------------------+
 
-SELECT UPPER('HELLO WORLD');                                                 *文字符大写： upper 函数
+SELECT UPPER('HELLO WORLD');                                                     *文字符大写： upper 函数
 mysql> SOURCE substring.sql;
 +----------------------+
 | UPPER('HELLO WORLD') |
@@ -231,14 +231,14 @@ mysql> SOURCE substring.sql;
 | HELLO WORLD          |
 +----------------------+
 
-SELECT LOWER('HELLO WORLD');                                                              *文字符小写： lower 函数
+SELECT LOWER('HELLO WORLD');                                                      *文字符小写： lower 函数
 +----------------------+
 | LOWER('HELLO WORLD') |
 +----------------------+
 | hello world          |
 +----------------------+
 
-SELECT                                                                                    *CONCAT & UPPER 组合函数
+SELECT                                                                             *CONCAT & UPPER 组合函数
   CONCAT('my favorite book is', UPPER(title))
 FROM books;
 +------------------------------------------------------------------------+
@@ -266,3 +266,4 @@ SELECT UPPER(CONCAT(author_fname, ' ', author_lname)) AS "full name in caps"    
 FROM books;
 SELECT CONCAT(UPPER(author_fname), ' ', UPPER(author_lname)) AS "full name in caps"       *不推荐这种写法，因为upper 函数重复了
 FROM books;
+                                                                                          *组合函数，每层函数（），不能省略
