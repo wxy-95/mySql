@@ -40,7 +40,7 @@ SELECT DISTINCT author_lname FROM books;                                   *DIST
 | Saunders       |
 +----------------+
 
-SELECT DISTINCT released_year FROM books;                                   *SELECT 函数 可以过滤重复值（int）
+SELECT DISTINCT released_year FROM books;                                   *DISTINCT 函数 可以过滤重复值（int）
 +---------------+
 | released_year |
 +---------------+
@@ -276,7 +276,7 @@ SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 5;     
 | A Hologram for the King: A Novel |          2012 |
 +----------------------------------+---------------+
 
- SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 0,5;       *同上，选择1到5
+ SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 0,5;                *同上，选择1到5
 +----------------------------------+---------------+
 | title                            | released_year |
 +----------------------------------+---------------+
@@ -287,7 +287,7 @@ SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 5;     
 | A Hologram for the King: A Novel |          2012 |
 +----------------------------------+---------------+
 
-SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 10,1;            *选择第11本书（0-10）
+SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 10,1;               *选择第11本书（0-10）
 +---------------+---------------+
 | title         | released_year |
 +---------------+---------------+
