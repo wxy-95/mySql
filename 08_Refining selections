@@ -1,0 +1,380 @@
+> SELECT author_lname FROM books;                                            *结果中含有重复的值                              
++----------------+
+| author_lname   |
++----------------+
+| Lahiri         |
+| Gaiman         |
+| Gaiman         |
+| Lahiri         |
+| Eggers         |
+| Eggers         |
+| Chabon         |
+| Smith          |
+| Eggers         |
+| Gaiman         |
+| Carver         |
+| Carver         |
+| DeLillo        |
+| Steinbeck      |
+| Foster Wallace |
+| Foster Wallace |
+| Harris         |
+| Harris         |
+| Saunders       |
++----------------+
+ 
+SELECT DISTINCT author_lname FROM books;                                   *DISTINCT 函数 可以过滤重复值（varchar）; DISTINCT 直接接在SELECT 后面
++----------------+
+| author_lname   |
++----------------+
+| Lahiri         |
+| Gaiman         |
+| Eggers         |
+| Chabon         |
+| Smith          |
+| Carver         |
+| DeLillo        |
+| Steinbeck      |
+| Foster Wallace |
+| Harris         |
+| Saunders       |
++----------------+
+
+SELECT DISTINCT released_year FROM books;                                   *SELECT 函数 可以过滤重复值（int）
++---------------+
+| released_year |
++---------------+
+|          2003 |
+|          2016 |
+|          2001 |
+|          1996 |
+|          2012 |
+|          2013 |
+|          2000 |
+|          2010 |
+|          1981 |
+|          1989 |
+|          1985 |
+|          1945 |
+|          2004 |
+|          2005 |
+|          2014 |
+|          2017 |
++---------------+
+
+SELECT DISTINCT CONCAT(author_lname, ' ', author_fname) FROM books;         *SELECT 和 CONCAT 函数，姓和名都不相同时不被过滤
++-----------------------------------------+
+| CONCAT(author_lname, ' ', author_fname) |
++-----------------------------------------+
+| Lahiri Jhumpa                           |
+| Gaiman Neil                             |
+| Eggers Dave                             |
+| Chabon Michael                          |
+| Smith Patti                             |
+| Carver Raymond                          |
+| DeLillo Don                             |
+| Steinbeck John                          |
+| Foster Wallace David                    |
+| Harris Dan                              |
+| Harris Freida                           |
+| Saunders George                         |
++-----------------------------------------+
+
+SELECT author_lname, author_fname FROM books;                                *与上述相同，只是格式区别（没有用concat）
++----------------+--------------+
+| author_lname   | author_fname |
++----------------+--------------+
+| Lahiri         | Jhumpa       |
+| Gaiman         | Neil         |
+| Gaiman         | Neil         |
+| Lahiri         | Jhumpa       |
+| Eggers         | Dave         |
+| Eggers         | Dave         |
+| Chabon         | Michael      |
+| Smith          | Patti        |
+| Eggers         | Dave         |
+| Gaiman         | Neil         |
+| Carver         | Raymond      |
+| Carver         | Raymond      |
+| DeLillo        | Don          |
+| Steinbeck      | John         |
+| Foster Wallace | David        |
+| Foster Wallace | David        |
+| Harris         | Dan          |
+| Harris         | Freida       |
+| Saunders       | George       |
++----------------+--------------+
+
+ SELECT author_lname FROM books ORDER BY author_lname;                      *ORDER BY 函数 结果降序排列；ORDER BY 位置在最后     
++----------------+
+| author_lname   |
++----------------+
+| Carver         |
+| Carver         |
+| Chabon         |
+| DeLillo        |
+| Eggers         |
+| Eggers         |
+| Eggers         |
+| Foster Wallace |
+| Foster Wallace |
+| Gaiman         |
+| Gaiman         |
+| Gaiman         |
+| Harris         |
+| Harris         |
+| Lahiri         |
+| Lahiri         |
+| Saunders       |
+| Smith          |
+| Steinbeck      |
++----------------+
+
+SELECT author_lname FROM books ORDER BY author_lname DESC;                     *ORDER BY & DESC 函数，降序排列
++----------------+
+| author_lname   |
++----------------+
+| Steinbeck      |
+| Smith          |
+| Saunders       |
+| Lahiri         |
+| Lahiri         |
+| Harris         |
+| Harris         |
+| Gaiman         |
+| Gaiman         |
+| Gaiman         |
+| Foster Wallace |
+| Foster Wallace |
+| Eggers         |
+| Eggers         |
+| Eggers         |
+| DeLillo        |
+| Chabon         |
+| Carver         |
+| Carver         |
++----------------+
+
+SELECT released_year FROM books ORDER BY released_year ASC;                      *ORDER BY & ASC 函数，升序排列
++---------------+
+| released_year |
++---------------+
+|          1945 |
+|          1981 |
+|          1985 |
+|          1989 |
+|          1996 |
+|          2000 |
+|          2001 |
+|          2001 |
+|          2001 |
+|          2003 |
+|          2003 |
+|          2004 |
+|          2005 |
+|          2010 |
+|          2012 |
+|          2013 |
+|          2014 |
+|          2016 |
+|          2017 |
++---------------+
+SELECT author_lname, released_year FROM books ORDER BY author_fname;            *ORDER BY 的字符，不一定要SELECT
++----------------+---------------+
+| author_lname   | released_year |
++----------------+---------------+
+| Harris         |          2014 |
+| Eggers         |          2012 |
+| Eggers         |          2013 |
+| Eggers         |          2001 |
+| Foster Wallace |          2005 |
+| Foster Wallace |          2004 |
+| DeLillo        |          1985 |
+| Harris         |          2001 |
+| Saunders       |          2017 |
+| Lahiri         |          1996 |
+| Lahiri         |          2003 |
+| Steinbeck      |          1945 |
+| Chabon         |          2000 |
+| Gaiman         |          2003 |
+| Gaiman         |          2001 |
+| Gaiman         |          2016 |
+| Smith          |          2010 |
+| Carver         |          1989 |
+| Carver         |          1981 |
++----------------+---------------+
+
+SELECT author_fname, author_lname, released_year FROM books ORDER BY author_lname, author_fname;             *ORDER BY 两个部分的字符
++--------------+----------------+---------------+
+| author_fname | author_lname   | released_year |
++--------------+----------------+---------------+
+| Raymond      | Carver         |          1989 |
+| Raymond      | Carver         |          1981 |
+| Michael      | Chabon         |          2000 |
+| Don          | DeLillo        |          1985 |
+| Dave         | Eggers         |          2012 |
+| Dave         | Eggers         |          2013 |
+| Dave         | Eggers         |          2001 |
+| David        | Foster Wallace |          2005 |
+| David        | Foster Wallace |          2004 |
+| Neil         | Gaiman         |          2016 |
+| Neil         | Gaiman         |          2003 |
+| Neil         | Gaiman         |          2001 |
+| Dan          | Harris         |          2014 |
+| Freida       | Harris         |          2001 |
+| Jhumpa       | Lahiri         |          1996 |
+| Jhumpa       | Lahiri         |          2003 |
+| George       | Saunders       |          2017 |
+| Patti        | Smith          |          2010 |
+| John         | Steinbeck      |          1945 |
++--------------+----------------+---------------+
+
+SELECT author_fname, author_lname, released_year FROM books ORDER BY 1;               *避免重复，ODER BY author_fname，位置是1的字符
++--------------+----------------+---------------+
+| author_fname | author_lname   | released_year |
++--------------+----------------+---------------+
+| Dan          | Harris         |          2014 |
+| Dave         | Eggers         |          2012 |
+| Dave         | Eggers         |          2013 |
+| Dave         | Eggers         |          2001 |
+| David        | Foster Wallace |          2005 |
+| David        | Foster Wallace |          2004 |
+| Don          | DeLillo        |          1985 |
+| Freida       | Harris         |          2001 |
+| George       | Saunders       |          2017 |
+| Jhumpa       | Lahiri         |          1996 |
+| Jhumpa       | Lahiri         |          2003 |
+| John         | Steinbeck      |          1945 |
+| Michael      | Chabon         |          2000 |
+| Neil         | Gaiman         |          2003 |
+| Neil         | Gaiman         |          2001 |
+| Neil         | Gaiman         |          2016 |
+| Patti        | Smith          |          2010 |
+| Raymond      | Carver         |          1989 |
+| Raymond      | Carver         |          1981 |
++--------------+----------------+---------------+
+
+SELECT title, released_year FROM books LIMIT 5;                                       *LIMIT 函数，选择前5个数据
++----------------------------------+---------------+
+| title                            | released_year |
++----------------------------------+---------------+
+| The Namesake                     |          2003 |
+| Norse Mythology                  |          2016 |
+| American Gods                    |          2001 |
+| Interpreter of Maladies          |          1996 |
+| A Hologram for the King: A Novel |          2012 |
++----------------------------------+---------------+
+
+SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 5;          *ORBER BY(DESC) 和 LIMIT 组合函数：最新的5本书（常用组合）
++----------------------------------+---------------+
+| title                            | released_year |
++----------------------------------+---------------+
+| Lincoln In The Bardo             |          2017 |
+| Norse Mythology                  |          2016 |
+| 10% Happier                      |          2014 |
+| The Circle                       |          2013 |
+| A Hologram for the King: A Novel |          2012 |
++----------------------------------+---------------+
+
+ SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 0,5;       *同上，选择1到5
++----------------------------------+---------------+
+| title                            | released_year |
++----------------------------------+---------------+
+| Lincoln In The Bardo             |          2017 |
+| Norse Mythology                  |          2016 |
+| 10% Happier                      |          2014 |
+| The Circle                       |          2013 |
+| A Hologram for the King: A Novel |          2012 |
++----------------------------------+---------------+
+
+SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 10,1;            *选择第11本书（0-10）
++---------------+---------------+
+| title         | released_year |
++---------------+---------------+
+| American Gods |          2001 |
++---------------+---------------+
+
+ SELECT title, released_year FROM books ORDER BY released_year DESC LIMIT 0,134385895;        *可利用一个较大的值，来选择全部数据
++-----------------------------------------------------+---------------+
+| title                                               | released_year |
++-----------------------------------------------------+---------------+
+| Lincoln In The Bardo                                |          2017 |
+| Norse Mythology                                     |          2016 |
+| 10% Happier                                         |          2014 |
+| The Circle                                          |          2013 |
+| A Hologram for the King: A Novel                    |          2012 |
+| Just Kids                                           |          2010 |
+| Consider the Lobster                                |          2005 |
+| Oblivion: Stories                                   |          2004 |
+| Coraline                                            |          2003 |
+| The Namesake                                        |          2003 |
+| American Gods                                       |          2001 |
+| A Heartbreaking Work of Staggering Genius           |          2001 |
+| fake_book                                           |          2001 |
+| The Amazing Adventures of Kavalier & Clay           |          2000 |
+| Interpreter of Maladies                             |          1996 |
+| Where I'm Calling From: Selected Stories            |          1989 |
+| White Noise                                         |          1985 |
+| What We Talk About When We Talk About Love: Stories |          1981 |
+| Cannery Row                                         |          1945 |
++-----------------------------------------------------+---------------+
+
+SELECT title FROM books WHERE title LIKE '%THE%';                                             *WHERE XX LIKE '%YY%' 函数，选择包含YY的XX; case insensitive
++-------------------------------------------+
+| title                                     |
++-------------------------------------------+
+| The Namesake                              |
+| A Hologram for the King: A Novel          |
+| The Circle                                |
+| The Amazing Adventures of Kavalier & Clay |
+| Consider the Lobster                      |
+| Lincoln In The Bardo                      |
++-------------------------------------------+
+
+ SELECT title FROM books WHERE title LIKE '%THE';                                             *结果为文字符要以 ‘the’ 结束
+
+SELECT stock_quantity, title FROM books WHERE stock_quantity LIKE '%';                        * '%'，'%%'，'%%%'，'%%%%' 都是显示全部结果              
++----------------+-----------------------------------------------------+
+| stock_quantity | title                                               |
++----------------+-----------------------------------------------------+
+|             32 | The Namesake                                        |
+|             43 | Norse Mythology                                     |
+|             12 | American Gods                                       |
+|             97 | Interpreter of Maladies                             |
+|            154 | A Hologram for the King: A Novel                    |
+|             26 | The Circle                                          |
+|             68 | The Amazing Adventures of Kavalier & Clay           |
+|             55 | Just Kids                                           |
+|            104 | A Heartbreaking Work of Staggering Genius           |
+|            100 | Coraline                                            |
+|             23 | What We Talk About When We Talk About Love: Stories |
+|             12 | Where I'm Calling From: Selected Stories            |
+|             49 | White Noise                                         |
+|             95 | Cannery Row                                         |
+|            172 | Oblivion: Stories                                   |
+|             92 | Consider the Lobster                                |
+|             29 | 10% Happier                                         |
+|            287 | fake_book                                           |
+|           1000 | Lincoln In The Bardo                                |
++----------------+-----------------------------------------------------+
+
+SELECT stock_quantity, title FROM books WHERE stock_quantity LIKE '____';                   *int 型，4位，‘____’四根下划线
++----------------+----------------------+
+| stock_quantity | title                |
++----------------+----------------------+
+|           1000 | Lincoln In The Bardo |
++----------------+----------------------+
+
+SELECT stock_quantity, title FROM books WHERE title LIKE '%\%%';                             *文字符中含有%
++----------------+-------------+
+| stock_quantity | title       |
++----------------+-------------+
+|             29 | 10% Happier |
++----------------+-------------+
+
+mysql> SELECT stock_quantity, title FROM books WHERE title LIKE '%\_%';                       *文字符中含有_
++----------------+-----------+
+| stock_quantity | title     |
++----------------+-----------+
+|            287 | fake_book |
++----------------+-----------+
