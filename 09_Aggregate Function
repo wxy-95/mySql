@@ -1,0 +1,205 @@
+SELECT COUNT(*) FROM books;                                                       *COUNT 函数，计算表格中所有的数据数量
++----------+
+| COUNT(*) |
++----------+
+|       19 |
++----------+
+
+SELECT COUNT(DISTINCT author_lname, author_fname) FROM books;                     *COUNT 函数，计算所有的作者人数（去重复值）
++--------------------------------------------+
+| COUNT(DISTINCT author_lname, author_fname) |
++--------------------------------------------+
+|                                         12 |
++--------------------------------------------+
+ 
+SELECT COUNT(*) FROM books WHERE title LIKE '%the%';                               *COUNT 函数，计算包含 ‘the’ 的title 数量
++----------+
+| COUNT(*) |
++----------+
+|        6 |
++----------+
+
+SELECT author_lname, author_fname, COUNT(*) 
+  FROM books 
+  GROUP BY 
+  author_lname, 
+  author_fname;                                                                    *GROUP BY 函数，根据相同条件（年份/作者）分类
++----------------+--------------+----------+                                       *常与 COUNT(*) 一起使用，计算不同分类下的数量
+| author_lname   | author_fname | COUNT(*) |
++----------------+--------------+----------+
+| Carver         | Raymond      |        2 |
+| Chabon         | Michael      |        1 |
+| DeLillo        | Don          |        1 |
+| Eggers         | Dave         |        3 |
+| Foster Wallace | David        |        2 |
+| Gaiman         | Neil         |        3 |
+| Harris         | Dan          |        1 |
+| Harris         | Freida       |        1 |
+| Lahiri         | Jhumpa       |        2 |
+| Saunders       | George       |        1 |
+| Smith          | Patti        |        1 |
+| Steinbeck      | John         |        1 |
++----------------+--------------+----------+
+
+SELECT 
+  CONCAT('In ', released_year,' ', COUNT(*),' book(s) is released') AS year 
+  FROM books 
+  GROUP BY released_year;                                                            *CONCAT, COUNT, GRUOP BY 组成混合函数  
++-------------------------------+
+| year                          |
++-------------------------------+
+| In 1945 1 book(s) is released |
+| In 1981 1 book(s) is released |
+| In 1985 1 book(s) is released |
+| In 1989 1 book(s) is released |
+| In 1996 1 book(s) is released |
+| In 2000 1 book(s) is released |
+| In 2001 3 book(s) is released |
+| In 2003 2 book(s) is released |
+| In 2004 1 book(s) is released |
+| In 2005 1 book(s) is released |
+| In 2010 1 book(s) is released |
+| In 2012 1 book(s) is released |
+| In 2013 1 book(s) is released |
+| In 2014 1 book(s) is released |
+| In 2016 1 book(s) is released |
+| In 2017 1 book(s) is released |
++-------------------------------+
+
+SELECT MIN(released_year) FROM books;                                                 *MIN 函数
++--------------------+
+| MIN(released_year) |
++--------------------+
+|               1945 |
++--------------------+
+
+mysql> SELECT MAX(pages) FROM books;                                                   *MAX 函数
++------------+
+| MAX(pages) |
++------------+
+|        634 |
++------------+
+
+SELECT title,  pages FROM books WHERE pages=(SELECT MAX(pages) FROM books);           *找到页数最多对应的书名：query 用两次，不是最佳
++-------------------------------------------+-------+
+| title                                     | pages |
++-------------------------------------------+-------+
+| The Amazing Adventures of Kavalier & Clay |   634 |
++-------------------------------------------+-------+
+
+SELECT title,  pages FROM books ORDER BY pages DESC LIMIT 1;                          *找到页数最多对应的书名：ORDER BY & LIMIT 复合函数
++-------------------------------------------+-------+
+| title                                     | pages |
++-------------------------------------------+-------+
+| The Amazing Adventures of Kavalier & Clay |   634 |
++-------------------------------------------+-------+
+
+SELECT title, MAX(pages) FROM books;                                                  *常见的错误query                                      
++--------------+------------+
+| title        | MAX(pages) |
++--------------+------------+
+| The Namesake |        634 |
++--------------+------------+
+
+SELECT author_lname, author_fname, MIN(released_year)                                *MIN & GROUP BY 组成复合函数
+  FROM books 
+  GROUP BY 
+  author_lname, 
+  author_fname;                
++----------------+--------------+--------------------+
+| author_lname   | author_fname | MIN(released_year) |
++----------------+--------------+--------------------+
+| Carver         | Raymond      |               1981 |
+| Chabon         | Michael      |               2000 |
+| DeLillo        | Don          |               1985 |
+| Eggers         | Dave         |               2001 |
+| Foster Wallace | David        |               2004 |
+| Gaiman         | Neil         |               2001 |
+| Harris         | Dan          |               2014 |
+| Harris         | Freida       |               2001 |
+| Lahiri         | Jhumpa       |               1996 |
+| Saunders       | George       |               2017 |
+| Smith          | Patti        |               2010 |
+| Steinbeck      | John         |               1945 |
++----------------+--------------+--------------------+
+
+ SELECT CONCAT(author_lname, ' ', author_fname) AS 'full name',                        *CONCAT & MAX & GROUP BY 组成复合函数
+  MAX(pages) AS 'max pages' 
+  FROM books 
+  GROUP  BY 
+  author_lname, 
+  author_fname;
++----------------------+-----------+
+| full name            | max pages |
++----------------------+-----------+
+| Carver Raymond       |       526 |
+| Chabon Michael       |       634 |
+| DeLillo Don          |       320 |
+| Eggers Dave          |       504 |
+| Foster Wallace David |       343 |
+| Gaiman Neil          |       465 |
+| Harris Dan           |       256 |
+| Harris Freida        |       428 |
+| Lahiri Jhumpa        |       291 |
+| Saunders George      |       367 |
+| Smith Patti          |       304 |
+| Steinbeck John       |       181 |
++----------------------+-----------+
+
+SELECT SUM(pages) FROM books;                                                          *SUM 函数
++------------+
+| SUM(pages) |
++------------+
+|       6623 |
++------------+
+
+SELECT author_lname, author_fname, SUM(pages) 
+  FROM books 
+  GROUP BY 
+  author_lname, 
+  author_fname;                                                                        *SUM & GROUP BY 复合函数
++----------------+--------------+------------+
+| author_lname   | author_fname | SUM(pages) |
++----------------+--------------+------------+
+| Carver         | Raymond      |        702 |
+| Chabon         | Michael      |        634 |
+| DeLillo        | Don          |        320 |
+| Eggers         | Dave         |       1293 |
+| Foster Wallace | David        |        672 |
+| Gaiman         | Neil         |        977 |
+| Harris         | Dan          |        256 |
+| Harris         | Freida       |        428 |
+| Lahiri         | Jhumpa       |        489 |
+| Saunders       | George       |        367 |
+| Smith          | Patti        |        304 |
+| Steinbeck      | John         |        181 |
++----------------+--------------+------------+
+
+SELECT AVG(pages) FROM books;                                                       *AVG 函数                                                                
++------------+
+| AVG(pages) |
++------------+
+|   348.5789 |
++------------+
+
+SELECT author_lname, author_fname, AVG(pages)                                       *AVG & GROUP BY 复合函数 
+  FROM books 
+  GROUP BY 
+  author_lname, 
+  author_fname;
++----------------+--------------+------------+
+| author_lname   | author_fname | AVG(pages) |
++----------------+--------------+------------+
+| Carver         | Raymond      |   351.0000 |
+| Chabon         | Michael      |   634.0000 |
+| DeLillo        | Don          |   320.0000 |
+| Eggers         | Dave         |   431.0000 |
+| Foster Wallace | David        |   336.0000 |
+| Gaiman         | Neil         |   325.6667 |
+| Harris         | Dan          |   256.0000 |
+| Harris         | Freida       |   428.0000 |
+| Lahiri         | Jhumpa       |   244.5000 |
+| Saunders       | George       |   367.0000 |
+| Smith          | Patti        |   304.0000 |
+| Steinbeck      | John         |   181.0000 |
++----------------+--------------+------------+
