@@ -66,6 +66,9 @@ SELECT
 | In 2017 1 book(s) is released |
 +-------------------------------+
 
+SELECT released_year, COUNT(released_year) FROM books GROUP BY released_year;        *两者结果一致
+SELECT released_year, COUNT(*) FROM books GROUP BY released_year;
+
 SELECT MIN(released_year) FROM books;                                                 *MIN 函数
 +--------------------+
 | MIN(released_year) |
