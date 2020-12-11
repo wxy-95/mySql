@@ -143,4 +143,53 @@ SELECT name, birth_date,  bith_dt - INTERVAL 1 HOUR + INTERVAL 1 MONTH FROM peop
 +-------+------------+----------------------------------------------+
 | wu    | 1995-11-22 | 1995-12-22 03:50:45                          |
 
+CREATE TABLE comments(contens VARCHAR(100), 
+created_at TIMESTAMP DEFAULT NOW());                                                         *时间：created_at TIMESTAMP DEFAULT NOW()
+DESC comments;
++------------+--------------+------+-----+-------------------+-------+
+| Field      | Type         | Null | Key | Default           | Extra |
++------------+--------------+------+-----+-------------------+-------+
+| contens    | varchar(100) | YES  |     | NULL              |       |
+| created_at | timestamp    | NO   |     | CURRENT_TIMESTAMP |       |
++------------+--------------+------+-----+-------------------+-------+
+mysql> INSERT INTO comments(contens) VALUES('I LOVE U');
+mysql> INSERT INTO comments(contens) VALUES('I HATE U');
+mysql> INSERT INTO comments(contens) VALUES('wxy');
+mysql> SELECT * FROM comments;
++----------+---------------------+
+| contens  | created_at          |
++----------+---------------------+
+| I LOVE U | 2020-12-11 15:00:29 |
+| I HATE U | 2020-12-11 15:01:02 |
+| wxy      | 2020-12-11 15:01:38 |
++----------+---------------------+
 
+CREATE TABLE comments2(contents VARCHAR(100), 
+changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP);                              *更新时间：changed_at TIMESTAMP DEFAULT NOW() ON UPDATE CURRENT_TIMESTAMP
+DESC comments2;                                                                                                                     or         UPDATE NOW()    建议写法
++------------+--------------+------+-----+-------------------+-----------------------------+
+| Field      | Type         | Null | Key | Default           | Extra                       |
++------------+--------------+------+-----+-------------------+-----------------------------+
+| contents   | varchar(100) | YES  |     | NULL              |                             |
+| changed_at | timestamp    | NO   |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
++------------+--------------+------+-----+-------------------+-----------------------------+
+mysql> INSERT INTO comments2(contents) VALUES('I LIKE DOGS');
+mysql> INSERT INTO comments2(contents) VALUES('I LIKE CATS');
+mysql> INSERT INTO comments2(contents) VALUES('I LIKE BIRDS');
+mysql> SELECT * FROM comments2;
++--------------+---------------------+
+| contents     | changed_at          |
++--------------+---------------------+
+| I LIKE DOGS  | 2020-12-11 15:08:58 |
+| I LIKE CATS  | 2020-12-11 15:09:06 |
+| I LIKE BIRDS | 2020-12-11 15:09:20 |
++--------------+---------------------+
+UPDATE comments2 SET contents='I  LIKE ANIMALS' WHERE contents='I LIKE BIRDS';
+SELECT * FROM comments2;
++----------------+---------------------+
+| contents       | changed_at          |
++----------------+---------------------+
+| I LIKE DOGS    | 2020-12-11 15:08:58 |
+| I LIKE CATS    | 2020-12-11 15:09:06 |
+| I LIKE ANIMALS | 2020-12-11 15:12:01 |
++----------------+---------------------+
