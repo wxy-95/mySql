@@ -55,8 +55,8 @@ SELECT * FROM thing;
 | cao  | 1997-12-25 | 00:00:00   | 1995-11-22 04:50:45 |
 +------+------------+------------+---------------------+
  
-                                                                                     *mysql date formate https://dev.mysql.com/doc/refman/5.6/ja/date-and-time-functions.html
-INSERT INTO people(name, birth_date, birth_time, bith_dt) 
+                                                                                     *mysql date formate DATETIME(): https://dev.mysql.com/doc/refman/5.6/ja/date-and-time-functions.html
+INSERT INTO people(name, birth_date, birth_time, bith_dt)                             '%x': https://www.dbonline.jp/mysql/function/index49.html
 VALUE('xiang', CURDATE(), CURTIME(), NOW());
 SELECT * FROM people;
 +-------+------------+------------+---------------------+
@@ -113,11 +113,18 @@ SELECT name, bith_dt, MINUTE(bith_dt) FROM people;                              
 +-------+---------------------+-----------------+
 | wu    | 1995-11-22 04:50:45 |              50 |
 
-SELECT DATE_FORMAT(bith_dt, '%d/%m/%Y') FROM people;                                  *DATE_FORMAT(bith_dt, '%d/%m/%Y)
-+----------------------------------+
+SELECT DATE_FORMAT(bith_dt, '%d/%m/%y') FROM people;                                  *DATE_FORMAT(bith_dt, '%d/%m/%y) 小写y 显示95
++----------------------------------+                                                  
 | DATE_FORMAT(bith_dt, '%d/%m/%Y') |
-+----------------------------------+
-| 22/11/1995                       |
++----------------------------------+ 
+| 22/11/95                         |
+
+SELECT DATE_FORMAT(NOW(), '%M/%D/%Y');                                                *SELECT DATE_FORMAT(NOW(), '%M/%D/%Y');  大写Y 显示2020
++--------------------------------+
+| DATE_FORMAT(NOW(), '%M/%D/%Y') |
++--------------------------------+
+| December/15th/2020             |
++--------------------------------+
 
  SELECT DATE_FORMAT(bith_dt, '%d/%m/%Y at %h:%i') FROM people;                        
 +-------------------------------------------+
@@ -193,3 +200,14 @@ SELECT * FROM comments2;
 | I LIKE CATS    | 2020-12-11 15:09:06 |
 | I LIKE ANIMALS | 2020-12-11 15:12:01 |
 +----------------+---------------------+
+
+                                                                                                 *PRATICE
+                                                                                                 *SELECT CURTIME();
+                                                                                                  SELECT CURDATE();
+                                                                                                  SELECT NOW();
+                                                                                                 *星期2  dayofweek=3
+                                                                                                  SELECT DATE_FORMAT(NOW(), '%w') + 1;  w是小写 星期天=0
+                                                                                                  SELECT DAYOFWEEK(NOW());
+                                                                                                 *星期2  dayname=2
+                                                                                                  SELECT DATE_FORMAT(NOW(), '%W');
+                                                                                                  SELECT DAYNAME(CURDATE());
