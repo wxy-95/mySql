@@ -1,0 +1,44 @@
+SELECT title, author_lname FROM books WHERE author_lname !='Harris';
+
+SELECT title FROM books WHERE title NOT LIKE '%W%';
+
+SELECT title, stock_quantity FROM books WHERE stock_quantity >= 100;
+
+SELECT 100 > 5;
++---------+
+| 100 > 5 |
++---------+
+|       1 |
++---------+
+
+SELECT 'A'='a';
++---------+
+| 'A'='a' |
++---------+
+|       1 |
++---------+
+
+SELECT 'b'>'a';
++---------+
+| 'b'>'a' |
++---------+
+|       1 |
++---------+
+
+SELECT title, released_year FROM books WHERE released_year < 2000 ORDER BY released_year;
+
+SELECT title, author_lname, released_year FROM books
+WHERE author_lname = 'Eggers' AND released_year > 2000 AND title LIKE '%novel%';
++----------------------------------+--------------+---------------+
+| title                            | author_lname | released_year |
++----------------------------------+--------------+---------------+
+| A Hologram for the King: A Novel | Eggers       |          2012 |
++----------------------------------+--------------+---------------+
+
+SELECT title, author_lname, released_year FROM books 
+WHERE author_lname = 'Eggers' && released_year > 2000 && title LIKE '%novel%';
++----------------------------------+--------------+---------------+
+| title                            | author_lname | released_year |
++----------------------------------+--------------+---------------+
+| A Hologram for the King: A Novel | Eggers       |          2012 |
++----------------------------------+--------------+---------------+
