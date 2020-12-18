@@ -68,3 +68,17 @@ SELECT title, stock_quantity,                                                   
         ELSE '***'
     END AS STOCK
 FROM books;
+
+
+practice
+SELECT title, author_lname, author_fname FROM books WHERE author_lname  like 'c%' or author_lname  like 's%';
+
+SELECT title, author_lname FROM books WHERE author_lname IN ('Eggers','Chabon');
+
+SELECT title, author_lname,
+CASE 
+        WHEN title LIKE '%stories%' THEN 'Short Stories'
+        WHEN title LIKE 'just kids OR a heart breaking work' THEN 'memoir'
+        ELSE 'Novel'
+        END AS genre
+FROM books;
