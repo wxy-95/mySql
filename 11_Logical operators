@@ -71,14 +71,41 @@ FROM books;
 
 
 practice
-SELECT title, author_lname, author_fname FROM books WHERE author_lname  like 'c%' or author_lname  like 's%';
+SELECT title, author_lname, author_fname FROM books WHERE author_lname  like 'c%' or author_lname  like 's%';          *string 文字符用like， 而不是=
+SELECT title, author_lname FROM books WHERE SUBSTR(author_lname, 1, 1) IN ('C', 'S');                                  *SUBSTR(author_lname, 1, 1)：author_lname的第一个文字符
 
-SELECT title, author_lname FROM books WHERE author_lname IN ('Eggers','Chabon');
+SELECT title, author_lname FROM books WHERE author_lname IN ('Eggers','Chabon');                                       *IN()
 
 SELECT title, author_lname,
 CASE 
-        WHEN title LIKE '%stories%' THEN 'Short Stories'
+        WHEN title LIKE '%stories%' THEN 'Short Stories'                                                               *string 文字符用like, 而不是contains
         WHEN title LIKE 'just kids OR a heart breaking work' THEN 'memoir'
         ELSE 'Novel'
         END AS genre
 FROM books;
+
+SELECT title, author_lname, COUNT(*) FROM books GROUP BY author_lname, author_fname;                                  *COUNT(*) 要与 GROUP BY 合用
++-----------------------------------------------------+----------------+----------+
+| title                                               | author_lname   | COUNT(*) |
++-----------------------------------------------------+----------------+----------+
+| What We Talk About When We Talk About Love: Stories | Carver         |        2 |
+| The Amazing Adventures of Kavalier & Clay           | Chabon         |        1 |
+| White Noise                                         | DeLillo        |        1 |
+| A Hologram for the King: A Novel                    | Eggers         |        3 |
+| Oblivion: Stories                                   | Foster Wallace |        2 |
+| Norse Mythology                                     | Gaiman         |        3 |
+| 10% Happier                                         | Harris         |        1 |
+| fake_book                                           | Harris         |        1 |
+| The Namesake                                        | Lahiri         |        2 |
+| Lincoln In The Bardo                                | Saunders       |        1 |
+| Just Kids                                           | Smith          |        1 |
+| Cannery Row                                         | Steinbeck      |        1 |
++-----------------------------------------------------+----------------+----------+
+
+SELECT title, author_lname, 
+CASE 
+    WHEN COUNT(*) = 1
+    THEN CONCAT(COUNT(*), ' ', 'book')
+    ELSE CONCAT(COUNT(*), ' ', 'books')
+    END AS COUNT
+FROM books GROUP BY author_lname, author_fname;
