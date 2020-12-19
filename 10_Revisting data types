@@ -2,7 +2,7 @@ char & varchar
 char(faster for fixed length text): Y/N(YES/NO FLAG) or M/F(SEX) ;
 Otherwise use varchar;
 
-CREATE TABLE item(price DECIMAL(5,2));                                            *最大 5 digits, 小数点后两位是 2
+CREATE TABLE item(price DECIMAL(5,2));                                            *DECIMAL(5,2): 最大 5 digits, 小数点后两位是 2
 INSERT INTO item(price) VALUE(7);
 INSERT INTO item(price) VALUE(4859484098);
 INSERT INTO item(price) VALUE(340.99);
