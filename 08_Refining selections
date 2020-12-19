@@ -358,7 +358,7 @@ SELECT stock_quantity, title FROM books WHERE stock_quantity LIKE '%';          
 |           1000 | Lincoln In The Bardo                                |
 +----------------+-----------------------------------------------------+
 
-SELECT stock_quantity, title FROM books WHERE stock_quantity LIKE '____';                   *int 型，4位，‘____’四根下划线
+SELECT stock_quantity, title FROM books WHERE stock_quantity LIKE '____';                   *int 型，stock_quantity 超过4位，‘____’四根下划线
 +----------------+----------------------+
 | stock_quantity | title                |
 +----------------+----------------------+
