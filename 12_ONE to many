@@ -102,3 +102,18 @@ JOIN orders
 SELECT * FROM customers
 RIGHR JOIN orders
     ON customers.id = orders.customer_id;
+
+
+Practice 
+SELECT first_name, 
+       Ifnull(Avg(grade), 0) AS average, 
+       CASE 
+         WHEN Avg(grade) IS NULL THEN 'FAILING' 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　*case 的情况下用 Avg(grade)
+         WHEN Avg(grade) >= 75 THEN 'PASSING' 
+         ELSE 'FAILING' 
+       end                   AS passing_status 
+FROM   students 
+       LEFT JOIN papers 
+              ON students.id = papers.student_id 
+GROUP  BY students.id 
+ORDER  BY average DESC;                                                                                           *order 的情况下用 average 或者 Avg(grade)，都可
