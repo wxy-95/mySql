@@ -1,4 +1,4 @@
-CREATE TABLE reviewers(
+CREATE TABLE reviewers(                                                                         *创建三个表格相互关联：reviewers，series reviwes
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(100),
     last_name VARCHAR(100)
@@ -16,13 +16,13 @@ CREATE TABLE reviwes(
     rating DECIMAL(2,1),
     reviewers_id INT,
     series_id INT,
-    FOREIGN KEY(reviewers_id) REFERENCES reviewers(id),
+    FOREIGN KEY(reviewers_id) REFERENCES reviewers(id),                                       *在reviwes 表格里两个FOREIGN KEY
     FOREIGN KEY(series_id) REFERENCES series(id)
 );
 
 SELECT title, rating 
 FROM series 
-JOIN reviwes 
+JOIN reviwes                                                                                  *JOIN
     ON series.id=reviwes.series_id;
     
 SELECT first_name, 
@@ -33,12 +33,12 @@ JOIN reviwes
     
 SELECT title AS unreviewed_series 
 FROM series 
-LEFT JOIN reviwes 
+LEFT JOIN reviwes                                                                             *LEFT JOIN
   ON series.id=reviwes.series_id
 WHERE rating is NULL;                                                                         * or reviwes.rating
-
+                                                                                              *WHERE rating is null
 SELECT genre, 
-       ROUND(AVG(rating), 2) AS avg_rating
+       ROUND(AVG(rating), 2) AS avg_rating                                                    *ROUND(X, 2)
 FROM reviwes 
       JOIN series 
             ON series.id = reviwes.series_id
@@ -59,8 +59,8 @@ GROUP BY reviewers.first_name
 ORDER BY STATUS;
 
 SELECT title, rating, CONCAT(first_name, ' ', last_name) AS name 
-FROM reviwes
-JOIN reviewers
+FROM reviwes                                                                                  *三个表格组合：FROM 1次； JOIN 2次
+JOIN reviewers 
     ON reviewers.id = reviwes.reviewers_id
 JOIN series
     ON series.id = reviwes.series_id
