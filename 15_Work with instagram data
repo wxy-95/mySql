@@ -5,12 +5,12 @@ FROM users
 GROUP BY DAYNAME(created_at) 
 ORDER BY COUNT(DAYNAME(created_at)) DESC;
 
-# 3. Find the inactive users who had never post a picture                                 * photos.id 而不是photos.photo_url
-SELECT username, photos.id
+# 3. Find the inactive users who had never post a picture                                
+SELECT username, photos.id                                                                * photos.id 而不是photos.photo_url
 FROM users
 LEFT JOIN photos
     on users.id = photos.user_id
-WHERE photos.id IS NULL;                                                                 * working with 'null'
+WHERE photos.id IS NULL;                                                                  * working with 'null'
 
 SELECT username, COUNT(photos.id)
 FROM users
@@ -18,3 +18,50 @@ LEFT JOIN photos
     on users.id = photos.user_id
 GROUP BY username 
 ORDER BY COUNT(photos.id);
+
+# 4. the photo that get the most like                                                     *找出被用户点赞最多的图片，以及此图片的作者
+SELECT users.username, likes.photo_id, photos.image_url, COUNT(*) AS total                *COUNT(*) 或者 COUNT(likes.photo_id) 
+FROM photos
+JOIN users
+    ON photos.user_id = users.id
+JOIN likes
+    ON photos.id = likes.photo_id
+GROUP BY likes.photo_id                                                                   *GROUP BY likes.photo_id 而不是 GROUP BY likes.user_id（点赞次数最多的用户，以及其点赞数量）
+ORDER BY total DESC;
+
+# 5. How many time does the users average post?                                           *每个人平均post几张图片                        
+SELECT COUNT(photos.id), COUNT(user.id), COUNT(photos.id) / COUNT(users.id) AS avg           
+FROM users
+JOIN photos
+    ON users.id = photos.user_id; 
++------------------+-----------------+--------+
+| COUNT(photos.id) | COUNT(users.id) | avg    |
++------------------+-----------------+--------+
+|              257 |             283 | 0.9081 |                                           *错误解答：COUNT(user.id)等于 COUNT(photos.user_id) ,因为存在一个人po 大于1 张图片的情况，导致结果会偏大
++------------------+-----------------+--------+  
+
+ SELECT                                                                                   *正确解答，不要忘记select
+    (SELECT COUNT(photos.id) FROM photos) / (SELECT COUNT(users.id) FROM users);
+ +-----------------------------------------------------------------------------+
+| (SELECT COUNT(photos.id) FROM photos) / (SELECT COUNT(users.id) FROM users) |
++-----------------------------------------------------------------------------+
+|                                                                      2.5700 |
++-----------------------------------------------------------------------------+
+
+# 6. Find out the top 5 most popular hashtag.
+SELECT COUNT(*) AS total, tags.tag_name
+FROM  photo_tags
+JOIN tags
+    ON photo_tags.tag_id = tags.id
+GROUP BY photo_tags.tag_id
+ORDER BY total DESC
+LIMIT 5;
+
+# 7. Find out the users who like every photos that have been post.
+SELECT username, COUNT(*) AS total
+FROM likes 
+JOIN users
+    ON likes.user_id = users.id
+GROUP BY likes.user_id
+HAVING total = (SELECT COUNT(*) FROM photo);                                                *HAVING total = (SELECT COUNT(*) FROM photo)
+                                                                                            *让某一个值等于另外一个值，位置置于最后
