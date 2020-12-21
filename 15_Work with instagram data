@@ -10,4 +10,11 @@ SELECT username, photos.id
 FROM users
 LEFT JOIN photos
     on users.id = photos.user_id
-WHERE photos.id IS NULL;                                                                 * working with null
+WHERE photos.id IS NULL;                                                                 * working with 'null'
+
+SELECT username, COUNT(photos.id)
+FROM users
+LEFT JOIN photos
+    on users.id = photos.user_id
+GROUP BY username 
+ORDER BY COUNT(photos.id);
