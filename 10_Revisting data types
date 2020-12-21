@@ -82,7 +82,8 @@ SELECT name, birth_date, DAYOFWEEK(birth_date) FROM people;                     
 | name  | birth_date | DAYOFWEEK(birth_date) |
 +-------+------------+-----------------------+
 | wu    | 1995-11-22 |                     4 |
-
+                                                                                   *DAYNAME(), DAYOFWEEK() 两者中间选择dayname
+                                                                                   
 SELECT name, birth_date, DAYOFYEAR(birth_date) FROM people;                        *DAYOFYEAR(); 第X天（一年中）
 +-------+------------+-----------------------+
 | name  | birth_date | DAYOFYEAR(birth_date) |
