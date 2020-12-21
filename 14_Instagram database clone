@@ -1,16 +1,15 @@
-DROP DATABASE ins_clone;
-
+DROP DATABASE ins_clone;                                                     *先drop database， 再利用SOURCE ins_clone.sql/user.sql
 CREATE DATABASE ins_clone;
 
 USE ins_clone; 
 
-CREATE TABLE users(
+CREATE TABLE users(                                                          *简化版
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE photos(
+CREATE TABLE photos(                                                         *id，图片的url，作者，创作时间
     id INT AUTO_INCREMENT PRIMARY KEY,
     image_url VARCHAR(255) NOT NULL,
     user_id INT NOT NULL,
@@ -18,7 +17,7 @@ CREATE TABLE photos(
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE comments(
+CREATE TABLE comments(                                                       *id，发布者，评价的图片，发布时间
     id INT AUTO_INCREMENT PRIMARY KEY,
     content_text VARCHAR(255) NOT NULL,
     user_id INT NOT NULL,
@@ -28,42 +27,35 @@ CREATE TABLE comments(
     FOREIGN KEY(photo_id) REFERENCES photos(id)
 );
 
-CREATE TABLE likes(
-    user_id INT NOT NULL,
+CREATE TABLE likes(                                                         *不需要id：like 一般不会作为foreign key 被引用
+    user_id INT NOT NULL,                                                   *被like 的图片，点击like 的账号， like 时间 
     photo_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY(user_id) REFERENCES users(id),
     FOREIGN KEY(photo_id) REFERENCES photos(id),
-    PRIMARY KEY(user_id, photo_id)
+    PRIMARY KEY(user_id, photo_id)                                          *PRIMARY KEY(user_id, photo_id)，被like 的图片和like 的账号只限一次相同
 );
 
-CREATE TABLE follows(
+CREATE TABLE follows(                                                       *follows ： 被follow 的人，follower 
     follower_id INT NOT NULL,
     followee_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW()
     FOREIGN KEY(follower_id) REFERENCES users(id),
     FOREIGN KEY(followee_id) REFERENCES users(id),
-    PRIMARY KEY(follower_id, followee_id)
+    PRIMARY KEY(follower_id, followee_id)                                   * PRIMARY KEY(follower_id, followee_id) ， 只能follow 一次
 );
 
-CREATE TABLE tags(
+CREATE TABLE tags(                                                          *hashtag：1.先创建tag 的id，名称，创建时间
     id INT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(255) UNIQUE,
     created_at TIMESTAMP DEFAULT NOW()
 );
-
-CREATE TABLE photo_tags(
+CREATE TABLE photo_tags(                                                    * 2. 再创建被tag的照片id，tag id
     tag_id INT NOT NULL,
     photo_id INT NOT NULL,
     FOREIGN KEY(tag_id) REFERENCES tags(id),
     FOREIGN KEY(photo_id) REFERENCES photos(id),
     PRIMARY KEY(tag_id, photo_id)
-);
-
-CREATE TABLE tags(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tag_name VARCHAR(255) UNIQUE,
-    created_at TIMESTAMP DEFAULT NOW()
 );
 
 SHOW TABLES;
