@@ -1,0 +1,13 @@
+# 2. MOST papular registration day.
+SELECT DAYNAME(created_at) AS day, 
+COUNT(DAYNAME(created_at)) AS total 
+FROM users 
+GROUP BY DAYNAME(created_at) 
+ORDER BY COUNT(DAYNAME(created_at)) DESC;
+
+# 3. Find the inactive users who had never post a picture                                 * photos.id 而不是photos.photo_url
+SELECT username, photos.id
+FROM users
+LEFT JOIN photos
+    on users.id = photos.user_id
+WHERE photos.id IS NULL;                                                                 * working with null
