@@ -1,0 +1,31 @@
+                                                                            *创建文档：app.js
+root@goorm:/workspace/mysql# node -v
+v10.16.3
+
+console.log('hello, world!');
+root@goorm:/workspace/mysql# node app.js
+hello, world!
+
+                                                                            *NodeJavascript is a language share the same syntax with Javascript. 
+                                                                             But it can run at the background (work as service).    
+for(var i=0; i < 500; i++){
+	console.log('hello, world');
+}
+
+                                                                            *输出任意的人名，地名，时间......
+                                                                            Find Faker Docs Here: https://github.com/marak/Faker.js/
+npm intall faker
+var faker = require('faker');                                               *下载 faker pakeage
+
+console.log(faker.internet.email());                                        *fake 邮箱
+
+console.log(faker.date.past());                                             *fake 过去的时间
+
+console.log(faker.address.city());                                          *fake 城市
+
+function generateAdress (){                                                 *定义generateAdress 函数，并且运行此函数
+	console.log(faker.address.streetName());
+	console.log(faker.address.city());
+	console.log(faker.address.state());
+}
+generateAdress();
