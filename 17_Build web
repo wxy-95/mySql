@@ -1,1 +1,22 @@
+创建一个新文件夹 named：JoinUs
+ls                                                           *确定文件夹里文件的数量
 
+root@goorm:/workspace/mysql# cd JoinUs/
+root@goorm:/workspace/mysql/JoinUs# ls
+root@goorm:/workspace/mysql/JoinUs# npm init                 *创建一个新的package
+
+package name: (joinus) join_us                               *package 参数设定
+version: (1.0.0)
+description:
+entry point: (index.js) app.js
+test command:
+git repository:
+keywords:
+author:
+license: (ISC)
+
+npm install express --save                                    *在package 内导入express，faker， mysql package
+npm install faker mysql --save
+                                                              
+                                                              *port
+                                                              
