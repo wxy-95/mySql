@@ -31,7 +31,7 @@ function generateAdress (){                                                 *定
 generateAdress();
 　
  　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
-					                                   *Every language has his own way talk to Mysql through Mysql-pack
+					                                   *Every language has his own way talk to Mysql through Mysql-package
 									   
 		*connect the NodeJavascript with Mysql 思路：创建‘mysql package’，然后在NodeJavascript中通过query 与‘mysql package’ 连接
 	                                                                   
@@ -63,7 +63,6 @@ CREATE TABLE users(                                                       *第�
     email VARCHAR(255) PRIMARY KEY,
     created_at TIMESTAMP DEFAULT NOW()
 );
-
 INSERT INTO users (email) 
 VALUES('Katie34@yahoo.com'), ('Tunde@gmail.com');
 
@@ -88,3 +87,66 @@ connection.query(q, function(errors, results, fields){
 	console.log(results[0].total);
 });
 connection.end();
+
+var q = 'INSERT INTO users (email) VALUES ("xiangyan@yahoo.co.jp")';               *INSERT DATA 1
+connection.query(q, function(error, results, fields){
+	if (error) throw error;
+	console.log(results);
+});
+connection.end();
+
+var person = {                                                                      *INSERT DATA 2
+    	        email: 'jenny98@gmail.com'
+	     };
+connection.query('INSERT INTO users SET ?', person, function(error, result) {
+  if (error) throw error;
+  console.log(result);
+});
+connection.end();
+
+var person = {                                                                      *INSERT DATA 3(randomly)
+	email : faker.internet.email(),
+	created_at : faker.date.past()
+};
+connection.query('INSERT INTO users SET ?', person, function(error, result) {
+	if (error) throw error;
+	console.log(result);
+});
+connection.end();
+
+var data=[                                                                          *INSERT DATA 4
+	['xiangyan@djhf.com']
+];
+var q = 'INSERT INTO users (email) VALUES ?';
+connection.query(q, [data], function(err, result){
+	console.log(err);
+	console.log(result);
+});
+connection.end();
+
+var data = [];                                                                    *show 500 random data
+for(var i=0; i<500; i++){
+	data.push([
+	faker.internet.email(),
+	faker.date.past()
+	]);
+}
+console.log(data);
+
+
+
+var data = [];                                                                   *INSERT 500 random data
+for(var i=0; i<500; i++){
+	data.push([
+	faker.internet.email(),
+	faker.date.past()
+	]);
+}
+var q = 'INSERT INTO users (email, created_at) VALUES ?';
+connection.query(q, [data], function(err, result){
+	console.log(err);
+	console.log(result);
+});
+connection.end();
+
+DELETE FROM users;                                                              *删除users 全部数据
