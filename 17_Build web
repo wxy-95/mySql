@@ -16,21 +16,30 @@ keywords:
 author:
 license: (ISC)
 
-npm install express --save                                    *在package 内导入express，faker， mysql package
+npm install express --save                                                                   *在package 内导入express，faker， mysql package
 npm install faker mysql --save
                                                               
-                                                              *port: work with firewall that block something that you did't want to block or you're not allowed to go to certain Website.
+                                                                                             *port: work with firewall that block something that you did't want to block or you're not allowed to go to certain Website.
                                                               
 var express = require('express');                             
 var app = express();
 
-app.get('/', async(req, res) => {
-	console.log(req);
+app.get('/', async(req, res) => {                                                             *console.log(req);  show网页信息
 	res.send("IS THIS THING ON?");
 });
+
+app.get('/joke', async(req, res) => {                                                         *add multiple router
+	var joke = "What do you call a dog that does magic tricks? A labracadabrador";
+	res.send(joke);
+});
+
+app.get('/random_num', async(req, res) => {
+	var num = Math.floor(Math.random()*10+1);                                              *0-10 中任意一个数字
+	res.send('your lucky num is ' + num);
+});	
 
 app.listen(3000, function(){
 	console.log('running on 3000');
 });
 
-project ---→ runing URL and port ---→ port = 3000(default)     * remember start the server (port=3000) on!
+project ---→ runing URL and port ---→ port = 3000(default)                                    * After editting and remember start the server (port=3000) on everytime!
