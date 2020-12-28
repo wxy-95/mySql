@@ -150,3 +150,36 @@ connection.query(q, [data], function(err, result){
 connection.end();
 
 DELETE FROM users;                                                              *删除users 全部数据
+
+                                                                              
+*practice
+1. MIN(created_at) = ORDER BY created_at
+
+2.                                                                               *MIN & ORDER BY
+SELECT * FROM users WHERE created_at = (SELECT MIN(created_at) FROM users);
+SELECT email, MIN(created_at) FROM users ORDER BY created_at;
+
+3.                                                                               *COUNT 不一定要跟GROUP BY 连用
+SELECT COUNT(*) FROM users GROUP BY email LIKE '%yahoo.com';                     *GROUP BY 得到两行数据（yahoo 用户和其他用户）
+SELECT COUNT(*) FROM users WHERE email LIKE '%yahoo.com';                        *WHERE 得到一行数据（yahoo）
+
+4.
+SELECT
+CASE
+    WHEN email LIKE '%gmail.com' THEN 'gmail'
+    WHEN email LIKE '%yahoo.com' THEN 'yahoo'
+    WHEN email LIKE '%hotmail.com' THEN 'hotmail'                                 *利用case 使 xxx@yahoo.com 输出为 yahoo
+    ELSE 'others'
+    END AS provider,
+COUNT(*) AS total                                                                 *先case， 再count， 最后再 from user
+FROM users
+GROUP BY provider                                                                 *group by privider(case)
+ORDER BY COUNT(*);
++----------+-------+
+| provider | total |
++----------+-------+
+| yahoo    |   155 |
+| gmail    |   158 |
+| hotmail  |   187 |
++----------+-------+
+
