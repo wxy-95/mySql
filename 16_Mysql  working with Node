@@ -76,7 +76,7 @@ var connection = mysql.createConnection({
 
 var q = 'SELECT * FROM users';                                             *SELECT DATA
 connection.query(q, function(errors, results, fields){
-	if (errors) throw error;
+	if (errors) throw errors;
 	console.log(results[1].email);
 });
 connection.end();
