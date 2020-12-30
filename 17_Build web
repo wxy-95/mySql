@@ -33,6 +33,7 @@ app.get('/joke', async(req, res) => {                                           
 	res.send(joke);
 });
 
+
 app.get('/random_num', async(req, res) => {
 	var num = Math.floor(Math.random()*10+1);                                              *0-10 中任意一个数字
 	res.send('your lucky num is ' + num);
@@ -43,3 +44,51 @@ app.listen(3000, function(){
 });
 
 project ---→ runing URL and port ---→ port = 3000(default)                                    * After editting and remember start the server (port=3000) on everytime!
+
+                                                                                              *connect express with mysql
+var express = require('express');
+var mysql = require('mysql');
+var app = express();                                                                          *app 与express，mysql 连接
+
+var connection = mysql.createConnection({                                                     *不要忘记，与mysql 的目标database 连接 
+	host       : 'localhost',
+	user       : 'root',
+	database   : 'join_us'
+});
+                                                                                           
+app.get('/', function(req, res){                                                              *与mysql node 语法一致
+	var q = 'SELECT COUNT(*) AS count FROM users';
+	connection.query(q, function(error, results){
+	if (error) throw error;
+	var msg = 'we have ' + results[0].count + ' users';
+	res.send(msg);
+	});
+});                                            
+
+<strong>What do you call a dog that does magic tricks?</strong>
+<em>A labracadabrador</em>
+
+                                                                                              *为了一个router 能够一次性输出更多内容需要引入 ejs API；
+npm install --save ejs                                                                        *下载ejs: 可以在html 中加入变量                                                              
+运行code：app.set('view engine', 'ejs');                                                      *在相应js 文档中运行ejs
+创建views 文档，在此文档下创建home.ejs文件                                                     
+在home.ejs 文件中输入：<h>this is html</h>                                                    *在根目录处创建home 文档，用来编辑输出的内容
+res.send();  更改为 res.render("home");                                                       *在js 文档中运行home 文档内容; 可以重复使用
+
+app.get('/', async(req, res) => {                                                             *app.js 文件中
+	var q = 'SELECT COUNT(*) AS count FROM users';
+	connection.query(q, function(error, results){
+	if (error) throw error;
+	var count = results[0].count;
+	res.render("home", {data: count});                                                    *data 是一个变量
+	});
+});
+                                                                                              *生成webpage
+<h1>JOIN US</h1>                                                                              *home.ejs 文件中
+<P>
+	Enter you email to join <strong><%=data%></strong> others in out waitlist.            *data 是一个变量
+</P>
+<form method="POST" action='/register'>                                                        *生成button 框             
+ <input type="text" class="form" name="email" placeholder="Enter Your Email">
+ <button>Join Now</button>
+</form>
