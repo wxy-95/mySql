@@ -80,15 +80,39 @@ app.get('/', async(req, res) => {                                               
 	connection.query(q, function(error, results){
 	if (error) throw error;
 	var count = results[0].count;
-	res.render("home", {data: count});                                                    *data 是一个变量
+	res.render("home", {count: count});                                                    *data 是一个变量
 	});
 });
+
+<h1>JOIN US</h1>
+<p>
+	Enter you email to join <strong><%=count%></strong> others on our waitinglist.        *variable:<%=count%>
+</p>
+<form>
+	<input type="text" placeholder="Enter your email">
+	<button>
+		Join Now
+	</button>
+</form>
+
+<h1>JOIN US</h1>
+<p>
+	Enter you email to join <strong><%=count%></strong> others on our waitinglist. 
+</p>
+<form method="GET" action="/joke">                                                            *get method
+	<input type="text" placeholder="Enter your email">
+	<button>
+		Join Now
+	</button>
+</form>
+
                                                                                               *生成webpage
 <h1>JOIN US</h1>                                                                              *home.ejs 文件中
 <P>
-	Enter you email to join <strong><%=data%></strong> others in out waitlist.            *data 是一个变量
+	Enter you email to join <strong><%=count%></strong> others in out waitlist.            *data 是一个变量
 </P>
 <form method="POST" action='/register'>                                                        *生成button 框             
  <input type="text" class="form" name="email" placeholder="Enter Your Email">
  <button>Join Now</button>
 </form>
+
