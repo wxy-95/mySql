@@ -75,7 +75,7 @@ npm install --save ejs                                                          
 在home.ejs 文件中输入：<h>this is html</h>                                                    *在根目录处创建home 文档，用来编辑输出的内容
 res.send();  更改为 res.render("home");                                                       *在js 文档中运行home 文档内容; 可以重复使用
 
-app.get('/', async(req, res) => {                                                             *app.js 文件中
+app.get('/', function(req, res){                                                             *app.js 文件中
 	var q = 'SELECT COUNT(*) AS count FROM users';
 	connection.query(q, function(error, results){
 	if (error) throw error;
@@ -116,3 +116,26 @@ app.get('/', async(req, res) => {                                               
  <button>Join Now</button>
 </form>
 
+ 
+npm install --save body-parser;                                                                *在网站上输入信息（邮箱），可以反映到数据库里
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: true}));
+app.post('/register', function(req, res){
+	var person = {
+		email: req.body.email                                                          *req.body.email, 此处email 跟name: email (home.ejs)对应
+	};
+	connection.query('INSERT INTO users SET ?', person, function(error, result){
+		if (error) throw error;
+		// res.send("Thanks for joining our waiting list");                            *memo
+		res.redirect('/');                                                             *返回到app.get('/', function(req, res){ });
+	});
+});
+
+
+                                                                                               *网页更改颜色，样式（css，html）
+<link rel="stylesheet" href='/app.css'>                                                        *home.ejs
+creat folder: public and then creat file: app.css                                    
+app.use(express.static(__dirname + "/public"));                                                *app.js
+
+html                                                                                           *home.ejs 更改位置（比如：居中）
+css                                                                                            *app.css 更改颜色，样式
