@@ -1,0 +1,45 @@
+                                                                                           *未成年（小于18）不能创建新用户
+DELIMITER $$                                                                               *必须选中一个database 之后再运行
+    CREATE TRIGGER must_be_adult                                                           *trigger name
+    BEFORE INSERT ON users FOR EACH ROW                                                    *trigger time  trigger event on table name
+    BEGIN 
+        IF NEW.age < 18
+        THEN 
+            SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'must be a adult';
+        END IF;
+    END;
+$$
+DELIMITER ;
+
+
+DELIMITER $$                                                                               *不能follow自己的账号
+  CREATE TRIGGER cannot_follow_yourself
+  BEFORE INSERT ON followers FOR EACH ROW
+  BEGIN 
+      IF NEW.follower_id = NEW.followee_id
+      THEN 
+          SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'you cannot follow yourself';
+    END IF;
+  END;
+$$
+DEMILITER ;
+
+
+DELIMITER $$                                                                              *记录被删除记录
+  CREATE TRIGGER capture_unfollow
+  AFTER DELETE ON follows FOR EACH ROW
+  BEGIN                                                          //BEGIN INSERT INTO unfollows
+      INSERT INTO unfollows(follower_id, followee_id)            //SET follower_id = OLD.follower_id,       *OLD.follower_id
+      VALUES(OLD.follower_id, OLD.followee_id);                  //    followee_id = OLD.followee_id;
+  END;                                                           //END;
+$$
+DELIMITER ;
+
+                                                                                         *应用场景：当新增一个产品时，可以利用trigger 增加一个产品总量之类（update）
+ 
+ SHOW TRIGGERS;                                                                         *trigger 存在于不同的database 内，所以要先选择databse
+ DROP TRIGGER trigger_name;
+ 
+ tiggers can make debug more difficult and try to avoid them.
