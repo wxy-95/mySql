@@ -36,6 +36,7 @@ DELIMITER $$                                                                    
   END;                                                           //END;
 $$
 DELIMITER ;
+                                                                                        *trigger name 和 table name 不要混淆
 
                                                                                          *应用场景：当新增一个产品时，可以利用trigger 增加一个产品总量之类（update）
  
